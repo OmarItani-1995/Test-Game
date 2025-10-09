@@ -39,6 +39,23 @@ public abstract class Card_HolderContainer : MonoBehaviour
         }
     }
 
+    public IEnumerator ShuffleCards()
+    {
+        yield return new WaitForSeconds(0.5f);
+        while (true)
+        {
+            var holders = CopyHolders();
+            while (holders.Count > 0)
+            {
+                var firstHolder = holders.GetRandomAndRemove();
+                var secondHolder = holders.GetRandomAndRemove();
+                firstHolder.SwitchViews(secondHolder);
+                yield return new WaitForSeconds(0.3f);
+            }
+            yield return new WaitForSeconds(1f);            
+        }
+    }
+
     public void TransitionCards(List<Card_Holder> oldHolders)
     {
         foreach (var oldHolder in oldHolders)
@@ -85,6 +102,20 @@ public abstract class Card_HolderContainer : MonoBehaviour
         {
             holder.EnableInput();
         }
+    }
+
+    public int GetActiveCardsCount()
+    {
+        int count = 0;
+        foreach (var holder in cardHolders)
+        {
+            if (!holder.IsEmpty())
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
 

@@ -5,10 +5,10 @@ using UnityEngine;
 public class Card_Matcher : MonoBehaviour, ICardMatcher
 {
     private ICardManager _cardManager;
+    private List<Card_Matcher_Instance> _matches = new List<Card_Matcher_Instance>();
+    private List<Card_Matcher_Instance> _doneMatches = new List<Card_Matcher_Instance>();
     
     private List<Card_Holder> _shownCards = new List<Card_Holder>();
-    private bool isTakingInput = false;
-    
     void Awake()
     {
         DI.Register<ICardMatcher>(this);
@@ -17,18 +17,19 @@ public class Card_Matcher : MonoBehaviour, ICardMatcher
     void Start()
     {
         _cardManager = DI.Get<ICardManager>();
-        Msg.RegisterListener(typeof(Msg_GameStarted), OnGameStarted);
     }
 
-    private void OnGameStarted(Message message)
+    void Update()
     {
-        isTakingInput = true;
+        if (_matches.Count == 0) return;
+        for (int i = _matches.Count - 1; i >= 0; i--)
+        {
+            _matches[i].Update();
+        }
     }
 
     public void CardClicked(Card_Holder holder)
     {
-        if (!isTakingInput) return;
-
         if (holder.IsHidden())
         {
             ShowCard(holder);
@@ -50,21 +51,15 @@ public class Card_Matcher : MonoBehaviour, ICardMatcher
 
         if (_shownCards.Count == 2)
         {
-            CheckMatch();
+            CreateMatchInstance();
         }   
     }
 
-    private void CheckMatch()
+    private void CreateMatchInstance()
     {
-        isTakingInput = false;
-        if (_shownCards[0].HasSameCard(_shownCards[1]))
-        {
-            Invoke("MatchHappened", 1f);
-        }
-        else
-        {
-            Invoke("ResetCards", 1f);
-        }
+        var matchInstance = new Card_Matcher_Instance(_shownCards, OnMatchSuccess, OnMatchFailed);
+        _matches.Add(matchInstance);
+        _shownCards = new List<Card_Holder>();
     }
 
     private void HideCard(Card_Holder holder)
@@ -77,26 +72,75 @@ public class Card_Matcher : MonoBehaviour, ICardMatcher
         holder.HideCard();
         _shownCards.Remove(holder);
     }
-
-    private void MatchHappened()
+    
+    private void OnMatchSuccess(Card_Matcher_Instance instance)
     {
-        _cardManager.MatchHappened(_shownCards);
-        _shownCards.Clear();
-        isTakingInput = true;
+        MoveMatchToDone(instance);
+        _cardManager.MatchHappened(instance.ShownCards);
+    }
+    
+    private void OnMatchFailed(Card_Matcher_Instance instance)
+    {
+        MoveMatchToDone(instance);
     }
 
-    private void ResetCards()
+    private void MoveMatchToDone(Card_Matcher_Instance instance)
     {
-        foreach (var card in _shownCards)
-        {
-            card.HideCard();
-        }
-        _shownCards.Clear();
-        isTakingInput = true;
+        _matches.Remove(instance);
+        _doneMatches.Add(instance);
     }
 }
 
 public interface ICardMatcher
 {
     void CardClicked(Card_Holder holder);
+}
+
+public class Card_Matcher_Instance
+{
+    private List<Card_Holder> _shownCards = new List<Card_Holder>();
+    private System.Action<Card_Matcher_Instance> _onMatchSuccess;
+    private System.Action<Card_Matcher_Instance> _onMatchFailed;
+
+    private float _timer = 0;
+    private float _maxTime = 1f;
+    
+    public List<Card_Holder> ShownCards => _shownCards;
+    public Card_Matcher_Instance(List<Card_Holder> shownCards, System.Action<Card_Matcher_Instance> onMatchSuccess, System.Action<Card_Matcher_Instance> onMatchFailed)
+    {
+        _shownCards = shownCards;
+        _onMatchSuccess = onMatchSuccess;
+        _onMatchFailed = onMatchFailed;
+        
+        foreach (var card in _shownCards)
+        {
+            card.DisableInput();
+        }
+    }
+
+    public void Update()
+    {
+        _timer += Time.deltaTime;
+        if (_timer >= _maxTime)
+        {
+            CheckMatch();
+        }    
+    }
+    
+    void CheckMatch()
+    {
+        if (_shownCards[0].HasSameCard(_shownCards[1]))
+        {
+            _onMatchSuccess?.Invoke(this);
+        }
+        else
+        {
+            foreach (var card in _shownCards)
+            {
+                card.HideCard();
+                card.EnableInput();
+            }
+            _onMatchFailed?.Invoke(this);
+        }
+    }
 }

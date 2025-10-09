@@ -16,7 +16,6 @@ public class Card_HolderContainer_Grid : Card_HolderContainer
         var points = _grid.GetPoints();
         foreach (var point in points)
         {
-            Debug.Log(point);
             var cardHolder = CreateHolder(point.transform);
             cardHolders.Add(cardHolder);
         }

@@ -10,7 +10,8 @@ public class LevelManager : MonoBehaviour
     private IGrid _grid;
     private ICamera _camera;
     private ICardManager _cardManager;
-
+    private IGameEnder _gameEnder;
+    
     [SerializeField] private float _delayBeforeHidingCards = 3;
     [SerializeField] private float _delayAfterHidingCards = 1;
     void Start()
@@ -18,13 +19,15 @@ public class LevelManager : MonoBehaviour
         _grid = DI.Get<IGrid>();
         _camera = DI.Get<ICamera>();
         _cardManager = DI.Get<ICardManager>();
+        _gameEnder = DI.Get<IGameEnder>();
         
-        Msg.RegisterListener(typeof(Msg_StartGame), OnStartGame);
+        Msg.RegisterListener(typeof(Msg_GameStarted), OnStartGame);
+        Msg.RegisterListener(typeof(Msg_AllCardsMatched), OnAllCardsMatched);
     }
 
     private void OnStartGame(Message message)
     {
-        Msg_StartGame msgStart = message as Msg_StartGame;
+        Msg_GameStarted msgStart = message as Msg_GameStarted;
         Rows = msgStart.rows;
         Columns = msgStart.columns;
         StartCoroutine(nameof(InitializeLevel));
@@ -39,11 +42,11 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(_delayBeforeHidingCards);
         _cardManager.HideAllCards();
         yield return new WaitForSeconds(_delayAfterHidingCards);
-        Msg.TriggerMessage(new Msg_GameStarted());
     }
-}
-
-public class Msg_GameStarted : Message
-{
     
+    private void OnAllCardsMatched(Message message)
+    {
+        _cardManager.AnimateAllMatchedCards();
+        _gameEnder.EndGame();
+    }
 }

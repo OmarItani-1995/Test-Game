@@ -57,10 +57,6 @@ public class Grid : MonoBehaviour, IGrid
 
     public IGridPoint[,] GetPoints()
     {
-        foreach (var ob in gridObjects)
-        {
-            Debug.Log(ob);
-        }
         return gridObjects;
     }
     

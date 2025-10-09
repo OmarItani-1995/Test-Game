@@ -89,4 +89,16 @@ public class Card_Holder : MonoBehaviour
     {
         _canTakeInput = true;
     }
+    public void DisableInput()
+    {
+        _canTakeInput = false;
+    }
+
+    public void SwitchViews(Card_Holder secondHolder)
+    {
+        var tempView = _cardView;
+        SetCardView(secondHolder._cardView);
+        secondHolder.SetCardView(tempView);
+    }
+
 }
