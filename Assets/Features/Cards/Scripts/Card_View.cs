@@ -9,7 +9,7 @@ public class Card_View : MonoBehaviour
     private Card _card;
     private ICard_MaterialCreator _materialCreator;
     
-    void Start()
+    void OnEnable()
     {
         _materialCreator = DI.Get<ICard_MaterialCreator>();    
     }

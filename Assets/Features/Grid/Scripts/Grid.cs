@@ -14,7 +14,7 @@ public class Grid : MonoBehaviour, IGrid
     [SerializeField] private int Columns;
     [SerializeField] private float spacing;
 
-    private Grid_Point[,] gridObjects;
+    private IGridPoint[,] gridObjects;
 
     public void GenerateGrid(int rows, int columns)
     {
@@ -35,7 +35,7 @@ public class Grid : MonoBehaviour, IGrid
                 Vector3 position = new Vector3(c * spacing, 0, r * spacing) + offset;
                 GameObject obj = Instantiate(prefab, position, Quaternion.identity, this.transform);
                 obj.name = $"Point_{r}_{c}";
-                gridObjects[r, c] = obj.GetComponent<Grid_Point>();
+                gridObjects[r, c] = obj.GetComponent<IGridPoint>();
             }
         }
     }
@@ -54,8 +54,26 @@ public class Grid : MonoBehaviour, IGrid
             gridObjects = null;
         }
     }
+
+    public IGridPoint[,] GetPoints()
+    {
+        foreach (var ob in gridObjects)
+        {
+            Debug.Log(ob);
+        }
+        return gridObjects;
+    }
     
-    #if UNITY_EDITOR
+    public Vector3 GetMinimumPoint()
+    {
+        if (gridObjects == null || gridObjects.Length == 0)
+        {
+            return Vector3.zero;
+        }
+        return gridObjects[0, 0].transform.position;
+    }
+
+#if UNITY_EDITOR
     [ContextMenu("Generate Grid")]
     private void Co_GenerateGrid()
     {
@@ -68,9 +86,9 @@ public interface IGrid
 {
     void GenerateGrid(int rows, int columns);
     void ClearGrid();
+    IGridPoint[,] GetPoints();
+    Vector3 GetMinimumPoint();
 }
 
-public class Grid_Point : MonoBehaviour
-{
-    
-}
+
+
