@@ -681,6 +681,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rows: 0
   Columns: 0
+  _delayBeforeHidingCards: 3
+  _delayAfterHidingCards: 1
 --- !u!1 &547646051
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,7 +943,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardHolderPrefab: {fileID: 3703611923851622616, guid: f97bb9df64fbacc43ad4bfc4d1fec545,
     type: 3}
-  cardHolders: []
+  betweenTransitionDelay: 0.3
 --- !u!1 &1042690479
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,6 +977,7 @@ MonoBehaviour:
   Rows: 2
   Columns: 2
   spacing: 1.5
+  ground: {fileID: 0}
 --- !u!4 &1042690481
 Transform:
   m_ObjectHideFlags: 0
@@ -990,6 +993,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1081988974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1081988975}
+  - component: {fileID: 1081988976}
+  m_Layer: 0
+  m_Name: Card Holder Container Top
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1081988975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081988974}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2026451673}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1081988976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081988974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c76745d90f5678148a8ad02e2e4286a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardHolderPrefab: {fileID: 3703611923851622616, guid: f97bb9df64fbacc43ad4bfc4d1fec545,
+    type: 3}
+  betweenTransitionDelay: 0
 --- !u!114 &1089161268 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8212382674026965782, guid: fb53a896c4daf744ea90913a09906931,
@@ -1771,6 +1821,7 @@ GameObject:
   - component: {fileID: 2026451676}
   - component: {fileID: 2026451674}
   - component: {fileID: 2026451675}
+  - component: {fileID: 2026451677}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -1792,6 +1843,7 @@ Transform:
   m_Children:
   - {fileID: 2033777135}
   - {fileID: 1010538239}
+  - {fileID: 1081988975}
   m_Father: {fileID: 10713198}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1834,6 +1886,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridContainer: {fileID: 2033777136}
   _sideContainer: {fileID: 1010538240}
+  _topContainer: {fileID: 1081988976}
+--- !u!114 &2026451677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026451672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2294e46f88acf48a7e6b19bc601171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2033777134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1880,7 +1945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardHolderPrefab: {fileID: 3703611923851622616, guid: f97bb9df64fbacc43ad4bfc4d1fec545,
     type: 3}
-  cardHolders: []
+  betweenTransitionDelay: 0
 --- !u!1 &2090725348
 GameObject:
   m_ObjectHideFlags: 0

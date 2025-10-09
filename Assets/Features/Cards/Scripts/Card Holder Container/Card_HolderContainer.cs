@@ -25,11 +25,11 @@ public abstract class Card_HolderContainer : MonoBehaviour
         return holder;
     }
 
-    public IEnumerator TransitionCards(Card_HolderContainer gridContainer)
+    public IEnumerator TransitionCards(Card_HolderContainer container)
     {
         yield return new WaitForSeconds(0.5f);
         var holders = CopyHolders();
-        var otherHolders = gridContainer.CopyHolders();
+        var otherHolders = container.CopyHolders();
         for (int i = 0; i < holders.Count; i++)
         {
             var holder = holders[i];
@@ -37,6 +37,33 @@ public abstract class Card_HolderContainer : MonoBehaviour
             holder.TransitionCard(otherHolder);
             yield return new WaitForSeconds(betweenTransitionDelay);
         }
+    }
+
+    public void TransitionCards(List<Card_Holder> oldHolders)
+    {
+        foreach (var oldHolder in oldHolders)
+        {
+            var newHolder = GetFirstEmptyHolder();
+            if (newHolder == null)
+            {
+                Debug.LogError("No empty holder found");
+                return;
+            }
+            oldHolder.TransitionCard(newHolder);
+        }
+    }
+
+    private Card_Holder GetFirstEmptyHolder()
+    {
+        for (int i = 0; i < cardHolders.Count; i++)
+        {
+            if (cardHolders[i].IsEmpty())
+            {
+                return cardHolders[i];
+            }
+        }
+
+        return null;
     }
 
     private List<Card_Holder> CopyHolders()
@@ -49,6 +76,14 @@ public abstract class Card_HolderContainer : MonoBehaviour
         foreach (var card in cardHolders)
         {
             card.HideCard();
+        }
+    }
+
+    public void EnableInput()
+    {
+        foreach (var holder in cardHolders)
+        {
+            holder.EnableInput();
         }
     }
 }

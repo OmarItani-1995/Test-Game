@@ -11,6 +11,7 @@ public class Card_Manager : MonoBehaviour, ICardManager
 
     [SerializeField] private Card_HolderContainer _gridContainer;
     [SerializeField] private Card_HolderContainer _sideContainer;
+    [SerializeField] private Card_HolderContainer _topContainer;
     private Card_Supplier _cardSupplier;
     
     void Start()
@@ -26,6 +27,7 @@ public class Card_Manager : MonoBehaviour, ICardManager
     {
         _sideContainer.InitializeCardHolders(count);
         _gridContainer.InitializeCardHolders(count);
+        _topContainer.InitializeCardHolders(count);
         
         List<Card> cards = GetCards(count / 2).DuplicateContent();
         _sideContainer.SetCards(cards);
@@ -34,7 +36,14 @@ public class Card_Manager : MonoBehaviour, ICardManager
 
     public void HideAllCards()
     {
-        _gridContainer.HideAllCards();        
+        _gridContainer.HideAllCards();
+        _gridContainer.EnableInput();
+    }
+
+    public void MatchHappened(List<Card_Holder> holders)
+    {
+        _topContainer.TransitionCards(holders);
+        Msg.TriggerMessage(new Msg_MatchHappened());    
     }
 
     private List<Card> GetCards(int count)
@@ -49,8 +58,14 @@ public class Card_Manager : MonoBehaviour, ICardManager
     }
 }
 
+public class Msg_MatchHappened : Message
+{
+    
+}
+
 public interface ICardManager
 {
     IEnumerator SetUpCards(int count);
     void HideAllCards();
+    void MatchHappened(List<Card_Holder> holders);
 }

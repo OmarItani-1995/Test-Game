@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour, IGameStarter
     }
     public void StartGame(int rows, int columns)
     {
-        Msg.TriggerMessage(new Msg_GameStarted()
+        Msg.TriggerMessage(new Msg_StartGame()
         {
             rows = rows,
             columns = columns
@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour, IGameStarter
     }
 }
 
-public class Msg_GameStarted : Message
+public class Msg_StartGame : Message
 {
     public int rows;
     public int columns;

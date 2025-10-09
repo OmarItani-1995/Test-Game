@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8836243763723913576}
   - component: {fileID: 6955096092679526075}
+  - component: {fileID: 520152034980189943}
   m_Layer: 0
   m_Name: Card_Holder
   m_TagString: Untagged
@@ -46,3 +47,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardViewPrefab: {fileID: 7546288367000185669, guid: 023d9691f7adea84fa3865ed9563d331,
     type: 3}
+--- !u!65 &520152034980189943
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3703611923851622616}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

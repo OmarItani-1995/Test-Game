@@ -13,9 +13,9 @@ public class Grid : MonoBehaviour, IGrid
     [SerializeField] private int Rows;
     [SerializeField] private int Columns;
     [SerializeField] private float spacing;
-
+    
     private IGridPoint[,] gridObjects;
-
+    
     public void GenerateGrid(int rows, int columns)
     {
         Rows = rows;
@@ -73,6 +73,15 @@ public class Grid : MonoBehaviour, IGrid
         return gridObjects[0, 0].transform.position;
     }
 
+    public Vector3 GetMaximumPoint()
+    {
+        if (gridObjects == null || gridObjects.Length == 0)
+        {
+            return Vector3.zero;
+        }
+        return gridObjects[Rows - 1, Columns - 1].transform.position;
+    }
+
 #if UNITY_EDITOR
     [ContextMenu("Generate Grid")]
     private void Co_GenerateGrid()
@@ -88,6 +97,7 @@ public interface IGrid
     void ClearGrid();
     IGridPoint[,] GetPoints();
     Vector3 GetMinimumPoint();
+    Vector3 GetMaximumPoint();
 }
 
 

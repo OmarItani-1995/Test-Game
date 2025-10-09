@@ -15,7 +15,6 @@ public class Card_View : MonoBehaviour
     private ICard_MaterialCreator _materialCreator;
     
     private Card _card;
-    private bool _isHidden = false;
     private Vector3 _targetRotation;
     void OnEnable()
     {
@@ -32,22 +31,24 @@ public class Card_View : MonoBehaviour
     void Update()
     {
         transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, Time.deltaTime * transitionSpeed);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(Vector3.zero), Time.deltaTime * transitionSpeed);
+        
         viewTransform.localRotation = Quaternion.Slerp(viewTransform.localRotation, Quaternion.Euler(_targetRotation), Time.deltaTime * transitionSpeed);
     }
 
     public void HideCard()
     {
-        _isHidden = true;
         _targetRotation = hiddenRotation;
     }
 
     public void ShowCard()
     {
-        _isHidden = false;
         _targetRotation = revealedRotation;
     }
 
-    private void OnMouseDown()
+    public Card GetCard()
     {
+        return _card;
     }
 }
+
