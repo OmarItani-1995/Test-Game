@@ -11,5 +11,14 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         grid = DI.Get<IGrid>();
+        Msg.RegisterListener(typeof(Msg_GameStarted), OnGameStarted);
+    }
+
+    private void OnGameStarted(Message message)
+    {
+        Msg_GameStarted msg = message as Msg_GameStarted;
+        Rows = msg.rows;
+        Columns = msg.columns;
+        grid.GenerateGrid(Rows, Columns);
     }
 }

@@ -1,10 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Msg : MonoBehaviour
 {
-    public static Msg instance = null;
+    private static Msg instance = null;
     void Awake()
     {
         instance = this;
@@ -50,30 +51,32 @@ public class Msg : MonoBehaviour
         }
     }
 
-    public void RegisterListener(string messageType, MessageHandleDelegate listener)
+    public static void RegisterListener(Type type, MessageHandleDelegate listener)
     {
-        if (!listenerDict.ContainsKey(messageType))
+        string messageType = type.Name;
+        if (!instance.listenerDict.ContainsKey(messageType))
         {
-            listenerDict[messageType] = new List<MessageHandleDelegate>();
+            instance.listenerDict[messageType] = new List<MessageHandleDelegate>();
         }
-        listenerDict[messageType].Add(listener);
+        instance.listenerDict[messageType].Add(listener);
     }
 
-    public void UnregisterListener(string messageType, MessageHandleDelegate listener)
+    public static void UnregisterListener(Type type, MessageHandleDelegate listener)
     {
-        if (listenerDict.ContainsKey(messageType))
+        string messageType = type.Name;
+        if (instance.listenerDict.ContainsKey(messageType))
         {
-            listenerDict[messageType].Remove(listener);
-            if (listenerDict[messageType].Count == 0)
+            instance.listenerDict[messageType].Remove(listener);
+            if (instance.listenerDict[messageType].Count == 0)
             {
-                listenerDict.Remove(messageType);
+                instance.listenerDict.Remove(messageType);
             }
         }
     }
 
-    public void TriggerMessage(Message message)
+    public static void TriggerMessage(Message message)
     {
-        messageQueue.Enqueue(message);
+        instance.messageQueue.Enqueue(message);
     }
 }
 
