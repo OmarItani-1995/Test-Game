@@ -2,25 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card_MaterialCreator : MonoBehaviour
+public class Card_MaterialCreator : MonoBehaviour, ICard_MaterialCreator
 {
-    public static Card_MaterialCreator instance = null;
-
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
-    
     public Material mainMaterial;
     private Dictionary<Card, Material> materials = new Dictionary<Card, Material>();
 
+    void Awake()
+    {
+        DI.Register<ICard_MaterialCreator>(this);
+    }
+    
     public Material GetMaterial(Card card)
     {
         if (materials.ContainsKey(card))
@@ -35,4 +26,9 @@ public class Card_MaterialCreator : MonoBehaviour
             return newMaterial;
         }
     }
+}
+
+public interface ICard_MaterialCreator
+{
+    Material GetMaterial(Card card);
 }

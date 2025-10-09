@@ -2,26 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid : MonoBehaviour
+public class Grid : MonoBehaviour, IGrid
 {
-    public static Grid instance = null;
-
     void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+        DI.Register<IGrid>(this);
     }
 
-    public GameObject prefab;
-    public int Rows;
-    public int Columns;
-    public float spacing;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private int Rows;
+    [SerializeField] private int Columns;
+    [SerializeField] private float spacing;
 
     private Grid_Point[,] gridObjects;
 
@@ -71,6 +62,12 @@ public class Grid : MonoBehaviour
         GenerateGrid(Rows, Columns);
     }
     #endif
+}
+
+public interface IGrid
+{
+    void GenerateGrid(int rows, int columns);
+    void ClearGrid();
 }
 
 public class Grid_Point : MonoBehaviour
