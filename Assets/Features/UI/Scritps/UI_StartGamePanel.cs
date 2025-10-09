@@ -43,9 +43,9 @@ public class UI_StartGamePanel : MonoBehaviour
             return;
         }
 
-        if (rows == 0)
+        if (rows < _gameRules.MinRows || rows > _gameRules.MaxRows)
         {
-            errorText.ShowError("Rows must be greater than 0");
+            errorText.ShowError($"Rows must be greater than {_gameRules.MinRows} and less than {_gameRules.MaxRows}");
             return;
         }
         
@@ -60,9 +60,9 @@ public class UI_StartGamePanel : MonoBehaviour
             return;
         }
         
-        if (columns == 0)
+        if (columns < _gameRules.MinColumns || columns > _gameRules.MaxColumns)
         {
-            errorText.ShowError("Columns must be greater than 0");
+            errorText.ShowError($"Columns must be greater than {_gameRules.MinColumns} and less than {_gameRules.MaxColumns}");
             return;
         }
         

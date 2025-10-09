@@ -7,10 +7,12 @@ public class LevelManager : MonoBehaviour
     public int Rows;
     public int Columns;
 
-    private IGrid grid;
+    private IGrid _grid;
+    private ICamera _camera;
     void Start()
     {
-        grid = DI.Get<IGrid>();
+        _grid = DI.Get<IGrid>();
+        _camera = DI.Get<ICamera>();
         Msg.RegisterListener(typeof(Msg_GameStarted), OnGameStarted);
     }
 
@@ -19,6 +21,7 @@ public class LevelManager : MonoBehaviour
         Msg_GameStarted msg = message as Msg_GameStarted;
         Rows = msg.rows;
         Columns = msg.columns;
-        grid.GenerateGrid(Rows, Columns);
+        _grid.GenerateGrid(Rows, Columns);
+        _camera.MoveToView(Rows, Columns);
     }
 }
