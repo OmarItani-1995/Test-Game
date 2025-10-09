@@ -29,7 +29,12 @@ public class Card_Manager : MonoBehaviour, ICardManager
         
         List<Card> cards = GetCards(count / 2).DuplicateContent();
         _sideContainer.SetCards(cards);
-        yield return null;
+        yield return _sideContainer.TransitionCards(_gridContainer);
+    }
+
+    public void HideAllCards()
+    {
+        _gridContainer.HideAllCards();        
     }
 
     private List<Card> GetCards(int count)
@@ -47,4 +52,5 @@ public class Card_Manager : MonoBehaviour, ICardManager
 public interface ICardManager
 {
     IEnumerator SetUpCards(int count);
+    void HideAllCards();
 }

@@ -10,6 +10,8 @@ public class LevelManager : MonoBehaviour
     private IGrid _grid;
     private ICamera _camera;
     private ICardManager _cardManager;
+
+    [SerializeField] private float _delayBeforeHidingCards = 3;
     
     void Start()
     {
@@ -32,7 +34,9 @@ public class LevelManager : MonoBehaviour
     {
         _grid.GenerateGrid(Rows, Columns);
         _camera.MoveToView(Rows, Columns);        
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         yield return _cardManager.SetUpCards(Rows * Columns);
+        yield return new WaitForSeconds(_delayBeforeHidingCards);
+        _cardManager.HideAllCards();
     }
 }

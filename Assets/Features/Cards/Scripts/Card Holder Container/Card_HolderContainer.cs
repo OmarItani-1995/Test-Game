@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Card_HolderContainer : MonoBehaviour
 {
-    public GameObject cardHolderPrefab;
-    public List<Card_Holder> cardHolders = new List<Card_Holder>();
+    [SerializeField] private GameObject cardHolderPrefab;
+    [SerializeField] [Range(0, 1)] private float betweenTransitionDelay;
+    protected List<Card_Holder> cardHolders = new List<Card_Holder>();
     
     public abstract void InitializeCardHolders(int numberOfHolders);
     public void SetCards(List<Card> cards)
@@ -21,6 +23,33 @@ public abstract class Card_HolderContainer : MonoBehaviour
         var holderObj = Instantiate(cardHolderPrefab, parent);
         var holder = holderObj.GetComponent<Card_Holder>();
         return holder;
+    }
+
+    public IEnumerator TransitionCards(Card_HolderContainer gridContainer)
+    {
+        yield return new WaitForSeconds(0.5f);
+        var holders = CopyHolders();
+        var otherHolders = gridContainer.CopyHolders();
+        for (int i = 0; i < holders.Count; i++)
+        {
+            var holder = holders[i];
+            var otherHolder = otherHolders.GetRandomAndRemove();
+            holder.TransitionCard(otherHolder);
+            yield return new WaitForSeconds(betweenTransitionDelay);
+        }
+    }
+
+    private List<Card_Holder> CopyHolders()
+    {
+        return cardHolders.Copy();
+    }
+
+    public void HideAllCards()
+    {
+        foreach (var card in cardHolders)
+        {
+            card.HideCard();
+        }
     }
 }
 

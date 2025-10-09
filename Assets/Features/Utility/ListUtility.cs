@@ -19,4 +19,11 @@ public static class ListUtility
         newList.AddRange(list);
         return newList;
     }
+    
+    public static List<T> Copy<T>(this List<T> list)
+    {
+        var newList = new List<T>(list.Count);
+        newList.AddRange(list);
+        return newList;
+    }
 }

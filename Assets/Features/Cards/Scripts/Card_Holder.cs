@@ -16,4 +16,23 @@ public class Card_Holder : MonoBehaviour
         
         _cardView.SetCard(card);
     }
+
+    public void TransitionCard(Card_Holder otherHolder)
+    {
+        otherHolder.SetCardView(_cardView);
+    }
+
+    private void SetCardView(Card_View cardView)
+    {
+        _cardView = cardView;
+        _cardView.transform.SetParent(transform);
+    }
+
+    public void HideCard()
+    {
+        if (_cardView != null)
+        {
+            _cardView.HideCard();
+        }
+    }
 }
