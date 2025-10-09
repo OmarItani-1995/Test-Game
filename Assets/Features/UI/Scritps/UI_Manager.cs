@@ -26,6 +26,7 @@ public class UI_Manager : MonoBehaviour
     {
         _gameRestarter.RestartGame();
     }
+    
     private void OnGameEnded(Message message)
     {
         EnableUI(2);
