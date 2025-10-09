@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
     private ICamera _camera;
     private ICardManager _cardManager;
     private IGameEnder _gameEnder;
+    private IAudioManager _audioManager;
     
     [SerializeField] private float _delayBeforeHidingCards = 3;
     [SerializeField] private float _delayAfterHidingCards = 1;
@@ -20,6 +21,7 @@ public class LevelManager : MonoBehaviour
         _camera = DI.Get<ICamera>();
         _cardManager = DI.Get<ICardManager>();
         _gameEnder = DI.Get<IGameEnder>();
+        _audioManager = DI.Get<IAudioManager>();
         
         Msg.RegisterListener(typeof(Msg_GameStarted), OnStartGame);
         Msg.RegisterListener(typeof(Msg_AllCardsMatched), OnAllCardsMatched);
@@ -46,6 +48,7 @@ public class LevelManager : MonoBehaviour
     
     private void OnAllCardsMatched(Message message)
     {
+        _audioManager.PlayAudio(Audio_ClipType.Game_Success, 0.5f);
         _cardManager.AnimateAllMatchedCards();
         _gameEnder.EndGame();
     }

@@ -42,7 +42,9 @@ public class Audio_Manager : MonoBehaviour, IAudioManager
 public enum Audio_ClipType
 {
     Card_Flip,
-    Deal_Card,
+    Match_Success,
+    Match_Fail,
+    Game_Success
 }
 
 public interface IAudioManager

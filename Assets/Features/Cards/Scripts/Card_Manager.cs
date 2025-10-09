@@ -12,11 +12,14 @@ public class Card_Manager : MonoBehaviour, ICardManager
     [SerializeField] private Card_HolderContainer _gridContainer;
     [SerializeField] private Card_HolderContainer _sideContainer;
     [SerializeField] private Card_HolderContainer _topContainer;
+
     private Card_Supplier _cardSupplier;
-    
+    private IAudioManager _audioManager;
     void Start()
     {
+        _audioManager = DI.Get<IAudioManager>();
         _cardSupplier = GetComponent<Card_Supplier>();
+        
         if (_cardSupplier == null)
         {
             Debug.LogError("Card_Manager requires a Card_Supplier component, add the component in the same gameobject");
@@ -46,7 +49,8 @@ public class Card_Manager : MonoBehaviour, ICardManager
         Msg.TriggerMessage(new Msg_MatchHappened()
         {
             Holders = holders
-        });    
+        });
+        _audioManager.PlayAudio(Audio_ClipType.Match_Success, 0.5f);
         int remainingCards = _gridContainer.GetActiveCardsCount();
         if (remainingCards == 0)
         {
@@ -56,6 +60,7 @@ public class Card_Manager : MonoBehaviour, ICardManager
     
     public void MatchMissed(List<Card_Holder> holders)
     {
+        _audioManager.PlayAudio(Audio_ClipType.Match_Fail, 0.5f);
         Msg.TriggerMessage(new Msg_MatchMissed()
         {
             Holders = holders
