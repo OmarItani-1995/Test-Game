@@ -40,7 +40,7 @@ public class Card_Holder : MonoBehaviour
 
     public void TransitionCard(Card_Holder otherHolder)
     {
-        otherHolder.SetCardView(_cardView, true);
+        otherHolder.SetCardView(_cardView);
         _cardView = null;
     }
 
@@ -100,25 +100,18 @@ public class Card_Holder : MonoBehaviour
     public void SwitchViews(Card_Holder secondHolder)
     {
         var tempView = _cardView;
-        SetCardView(secondHolder._cardView, false);
-        secondHolder.SetCardView(tempView, false);
+        SetCardView(secondHolder._cardView);
+        secondHolder.SetCardView(tempView);
     }
     
-    private void SetCardView(Card_View cardView, bool playAudio)
+    private void SetCardView(Card_View cardView)
     {
         _cardView = cardView;
         _cardView.transform.SetParent(transform);
-        if (playAudio)
-            PlayTransitionAudio();
     }
     
     private void PlayFlipAudio()
     {
         _audioManager.PlayAudio(Audio_ClipType.Card_Flip, 0.5f);
-    }
-
-    private void PlayTransitionAudio()
-    {
-        _audioManager.PlayAudio(Audio_ClipType.Deal_Card, 0.5f);
     }
 }

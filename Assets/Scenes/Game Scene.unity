@@ -1593,7 +1593,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardHolderPrefab: {fileID: 3703611923851622616, guid: f97bb9df64fbacc43ad4bfc4d1fec545,
     type: 3}
-  betweenTransitionDelay: 0
+  betweenTransitionDelay: 0.3
 --- !u!114 &1089161268 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8212382674026965782, guid: fb53a896c4daf744ea90913a09906931,
@@ -3103,7 +3103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardHolderPrefab: {fileID: 3703611923851622616, guid: f97bb9df64fbacc43ad4bfc4d1fec545,
     type: 3}
-  betweenTransitionDelay: 0
+  betweenTransitionDelay: 0.3
 --- !u!1 &2038616478
 GameObject:
   m_ObjectHideFlags: 0

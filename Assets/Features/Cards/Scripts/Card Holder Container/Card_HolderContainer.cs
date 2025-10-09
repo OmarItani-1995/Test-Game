@@ -6,7 +6,6 @@ using UnityEngine.Serialization;
 public abstract class Card_HolderContainer : MonoBehaviour
 {
     [SerializeField] private GameObject cardHolderPrefab;
-    [SerializeField] [Range(0, 1)] private float betweenTransitionDelay;
     protected List<Card_Holder> cardHolders = new List<Card_Holder>();
     
     public abstract void InitializeCardHolders(int numberOfHolders);
@@ -30,12 +29,13 @@ public abstract class Card_HolderContainer : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         var holders = CopyHolders();
         var otherHolders = container.CopyHolders();
+        float delay = 2f / holders.Count;
         for (int i = 0; i < holders.Count; i++)
         {
             var holder = holders[i];
             var otherHolder = otherHolders.GetRandomAndRemove();
             holder.TransitionCard(otherHolder);
-            yield return new WaitForSeconds(betweenTransitionDelay);
+            yield return new WaitForSeconds(delay);
         }
     }
 
