@@ -137,7 +137,7 @@ public class Card_Matcher_Instance
         {
             foreach (var card in _shownCards)
             {
-                card.HideCard();
+                card.HideCard(true);
                 card.EnableInput();
             }
             _onMatchFailed?.Invoke(this);

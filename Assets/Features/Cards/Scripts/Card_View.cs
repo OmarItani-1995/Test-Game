@@ -40,11 +40,11 @@ public class Card_View : MonoBehaviour
     {
         _targetRotation = hiddenRotation;
     }
-
     public void ShowCard()
     {
         _targetRotation = revealedRotation;
     }
+
 
     public Card GetCard()
     {

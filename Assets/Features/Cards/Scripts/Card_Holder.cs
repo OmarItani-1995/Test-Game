@@ -6,8 +6,10 @@ using UnityEngine;
 public class Card_Holder : MonoBehaviour
 {
     [SerializeField] private Card_View cardViewPrefab;
-    
+
+    private IAudioManager _audioManager;
     private ICardMatcher _cardMatcher;
+        
     private Card_View _cardView;
     private bool _isHidden = false;
     private bool _canTakeInput = false;
@@ -15,7 +17,17 @@ public class Card_Holder : MonoBehaviour
     void OnEnable()
     {
         _cardMatcher = DI.Get<ICardMatcher>();
+        _audioManager = DI.Get<IAudioManager>();
     }
+    
+    private void OnMouseDown()
+    {
+        if (_canTakeInput && GetCard() != null)
+        {
+            _cardMatcher.CardClicked(this);
+        }
+    }
+    
     public void SetCard(Card card)
     {
         if (_cardView == null)
@@ -28,22 +40,20 @@ public class Card_Holder : MonoBehaviour
 
     public void TransitionCard(Card_Holder otherHolder)
     {
-        otherHolder.SetCardView(_cardView);
+        otherHolder.SetCardView(_cardView, true);
         _cardView = null;
     }
 
-    private void SetCardView(Card_View cardView)
-    {
-        _cardView = cardView;
-        _cardView.transform.SetParent(transform);
-    }
-
-    public void HideCard()
+    public void HideCard(bool playAudio = false)
     {
         if (_cardView != null)
         {
             _isHidden = true;
             _cardView.HideCard();
+            if (playAudio)
+            {
+                PlayFlipAudio();
+            }
         }
     }
 
@@ -53,17 +63,10 @@ public class Card_Holder : MonoBehaviour
         {
             _isHidden = false;
             _cardView.ShowCard();
+            PlayFlipAudio();
         }
     }
-
-    private void OnMouseDown()
-    {
-        if (_canTakeInput && GetCard() != null)
-        {
-            _cardMatcher.CardClicked(this);
-        }
-    }
-
+    
     public Card GetCard()
     {
         return _cardView != null ? _cardView.GetCard() : null;
@@ -93,12 +96,29 @@ public class Card_Holder : MonoBehaviour
     {
         _canTakeInput = false;
     }
-
+    
     public void SwitchViews(Card_Holder secondHolder)
     {
         var tempView = _cardView;
-        SetCardView(secondHolder._cardView);
-        secondHolder.SetCardView(tempView);
+        SetCardView(secondHolder._cardView, false);
+        secondHolder.SetCardView(tempView, false);
+    }
+    
+    private void SetCardView(Card_View cardView, bool playAudio)
+    {
+        _cardView = cardView;
+        _cardView.transform.SetParent(transform);
+        if (playAudio)
+            PlayTransitionAudio();
+    }
+    
+    private void PlayFlipAudio()
+    {
+        _audioManager.PlayAudio(Audio_ClipType.Card_Flip, 0.5f);
     }
 
+    private void PlayTransitionAudio()
+    {
+        _audioManager.PlayAudio(Audio_ClipType.Deal_Card, 0.5f);
+    }
 }

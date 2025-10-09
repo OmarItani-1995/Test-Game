@@ -156,6 +156,7 @@ Transform:
   - {fileID: 510566769}
   - {fileID: 2026451673}
   - {fileID: 299817002}
+  - {fileID: 629115305}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -850,6 +851,80 @@ MonoBehaviour:
   - {fileID: 1280775440}
   - {fileID: 1464940898}
   - {fileID: 1616785266}
+--- !u!1 &629115304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 629115305}
+  - component: {fileID: 629115306}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &629115305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629115304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 10713198}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &629115306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 629115304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eabf25171752e0f4e9d10b5366d960ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioPrefab: {fileID: 3711741940446405000, guid: 4f6c1bc5e25a859439d7ef7d8f103719,
+    type: 3}
+  audioClips:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 0000000001000000
+    _keys: 0000000001000000
+    _values:
+    - {fileID: 8300000, guid: 3df4de37e5ee52548a535013fb5ca5fb, type: 3}
+    - {fileID: 8300000, guid: 765d3f92b8791a94c94b75271b1fad45, type: 3}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1995,7 +2070,7 @@ PrefabInstance:
     - target: {fileID: 6346635126415151121, guid: d954d443cc9f18a4ea6430806e9df59a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.19582367
+      value: 0.19581604
       objectReference: {fileID: 0}
     - target: {fileID: 6346635126415151121, guid: d954d443cc9f18a4ea6430806e9df59a,
         type: 3}
