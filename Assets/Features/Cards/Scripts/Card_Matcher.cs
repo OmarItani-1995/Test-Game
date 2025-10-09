@@ -75,12 +75,13 @@ public class Card_Matcher : MonoBehaviour, ICardMatcher
     
     private void OnMatchSuccess(Card_Matcher_Instance instance)
     {
-        MoveMatchToDone(instance);
         _cardManager.MatchHappened(instance.ShownCards);
+        MoveMatchToDone(instance);
     }
     
     private void OnMatchFailed(Card_Matcher_Instance instance)
     {
+        _cardManager.MatchMissed(instance.ShownCards);
         MoveMatchToDone(instance);
     }
 

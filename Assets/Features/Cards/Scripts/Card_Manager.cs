@@ -43,12 +43,23 @@ public class Card_Manager : MonoBehaviour, ICardManager
     public void MatchHappened(List<Card_Holder> holders)
     {
         _topContainer.TransitionCards(holders);
-        Msg.TriggerMessage(new Msg_MatchHappened());    
+        Msg.TriggerMessage(new Msg_MatchHappened()
+        {
+            Holders = holders
+        });    
         int remainingCards = _gridContainer.GetActiveCardsCount();
         if (remainingCards == 0)
         {
             Msg.TriggerMessage(new Msg_AllCardsMatched());           
         }
+    }
+    
+    public void MatchMissed(List<Card_Holder> holders)
+    {
+        Msg.TriggerMessage(new Msg_MatchMissed()
+        {
+            Holders = holders
+        });
     }
 
     public void AnimateAllMatchedCards()
@@ -79,7 +90,12 @@ public class Card_Manager : MonoBehaviour, ICardManager
 
 public class Msg_MatchHappened : Message
 {
-    
+    public List<Card_Holder> Holders;
+}
+
+public class Msg_MatchMissed : Message
+{
+    public List<Card_Holder> Holders;
 }
 
 public class Msg_AllCardsMatched : Message
@@ -92,5 +108,6 @@ public interface ICardManager
     IEnumerator SetUpCards(int count);
     void HideAllCards();
     void MatchHappened(List<Card_Holder> holders);
+    void MatchMissed(List<Card_Holder> holders);
     void AnimateAllMatchedCards();
 }

@@ -5,11 +5,12 @@ using UnityEngine;
 /// Class containing game rules, for prototype it can be class, or a scriptable that redirect fields
 /// For a live game it can be a remote values fetched from a server 
 /// </summary>
-public class GameRules : MonoBehaviour, IGameRules_Layout
+public class GameRules : MonoBehaviour, IGameRules_Layout, IGameRules_Score
 {
     void Awake()
     {
         DI.Register<IGameRules_Layout>(this);
+        DI.Register<IGameRules_Score>(this);
     }
     public bool IsRowAndColumnValid(int row, int column)
     {
@@ -22,6 +23,9 @@ public class GameRules : MonoBehaviour, IGameRules_Layout
     public int MaxColumns { get; set; } = 8;
     public int MinRows { get; set; } = 2;
     public int MinColumns { get; set; } = 2;
+    public int PointsPerMatch { get; set; } = 3;
+    public int PointsLostPerMiss { get; set; } = 1;
+    public bool MultiplyPointsByCombo { get; set; } = true;
 }
 
 public interface IGameRules_Layout
@@ -35,4 +39,11 @@ public interface IGameRules_Layout
     
     int MinRows { get; set; }
     int MinColumns { get; set; }
+}
+
+public interface IGameRules_Score
+{
+    int PointsPerMatch { get; set; }
+    int PointsLostPerMiss { get; set; }
+    bool MultiplyPointsByCombo { get; set; }
 }
