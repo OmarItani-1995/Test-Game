@@ -1532,11 +1532,10 @@ MonoBehaviour:
   prefab: {fileID: 1013954441844081151, guid: 650352d396f65a7498a19b159a99a9ec, type: 3}
   Rows: 2
   Columns: 2
-  spacing: 0.5
-  minCardScale: 0.1
-  maxCardScale: 1
-  minSpacing: 0.15
-  maxSpacing: 1.25
+  spacing: 1.2
+  minScale: 0.1
+  maxScale: 0.7
+  totalDistance: 3.5
 --- !u!4 &1042690481
 Transform:
   m_ObjectHideFlags: 0
