@@ -1,7 +1,7 @@
 🧩 Project Overview
 
-This project was developed over approximately 12 hours as a prototype to demonstrate a modular game architecture built with flexibility and scalability in mind.
-It focuses on clean system separation, event-driven communication, and extendable core utilities that can easily evolve into production-grade systems.
+This project was developed over approximately 12 hours as a prototype to demonstrate a modular and scalable game architecture in Unity.
+It focuses on clean system separation, event-driven communication, and extensible core utilities that can easily evolve into production-ready systems.
 
 ⚙️ Core Features
 1. Dependency Injection (DI)
@@ -14,7 +14,7 @@ DI is used when a class requires a specific implementation of a service or modul
 
 2. Message System (Msg)
 
-A simple message broadcasting system that allows decoupled communication between game systems.
+A simple message broadcasting system that enables decoupled communication between game systems.
 
 Each message can have multiple listeners (observers).
 
@@ -28,30 +28,32 @@ It complements DI by handling global events that multiple systems may need to re
 
 3. Card System
 
-The Card System is the core of the project and manages all gameplay logic related to cards.
+The Card System is the heart of the project, managing all gameplay logic related to cards.
 
 Main Components & Flow:
 
 Card_Manager → Card_Container → Card_Holder → Card_View → Card
 
 
-Card_Manager: The central entry point controlling the overall card behavior and interactions.
+Card_Manager: The central entry point controlling overall card behavior and interactions.
 
 Card_Container: Manages different zones — Grid, Top, and Left — where cards are distributed or moved.
 
 Card_Holder: Defines where a Card_View can be placed and acts as the clickable element in the UI.
 
-Card_View: Handles the visual presentation of the card, including flipping and transition animations.
+Card_View: Handles the visual representation of a card, including flipping and transition animations.
 
-Card: The data representation of a single card.
+Card: Represents the card’s data and identity.
 
 Behavior Overview:
 
-Cards transition between containers (e.g., Grid → Top) depending on gameplay state.
+Cards move between containers (e.g., Grid → Top) depending on gameplay state.
 
-When two cards match, they move to the top container; upon completing the game, all cards return to the grid with a short transition animation.
+When two cards match, they are moved to the top container.
 
-Transitions are smooth and seamless thanks to simple position resets managed by the Card_Holder.
+Once the game is completed, all cards return to the grid with a short transition animation.
+
+Transitions are seamless due to a simple position reset mechanism managed by the Card_Holder.
 
 4. Score System
 
@@ -64,13 +66,13 @@ On Match Success: Increases score and combo based on predefined GameRules.
 On Match Fail: Resets combo and decreases score.
 
 Design Benefit:
-The score system is fully decoupled—it can be modified, replaced, or removed without affecting other modules.
+The score system is fully decoupled, meaning it can be modified, replaced, or removed without affecting other modules.
 
 5. Save & Load System
 
-A lightweight save/load system designed for flexibility and testing.
+A lightweight save/load framework designed for flexibility and easy testing.
 
-Includes an Editor Tool located at Tools/SaveLoad Tester to simulate saving and loading.
+Includes an Editor Tool at Tools/SaveLoad Tester to simulate save/load functionality.
 
 Uses a Bridge Pattern to route save/load calls to the correct implementation:
 
@@ -79,38 +81,67 @@ Editor: Uses PlayerPrefs
 Mobile: Can be extended to use PlayFab or Firebase
 
 Note:
-Although the game has a small data footprint, this setup provides a foundation for scalable persistence logic across platforms.
+Although the game has a small data footprint, this setup provides a scalable structure for persistence across platforms.
 
 6. Value Lerp Utility
 
-A minimal Tween/Animation utility for value interpolation.
+A small, generic tweening utility for smooth value interpolation.
 
 Designed using generics for flexibility and reusability.
 
-Can be easily extended to include:
+Can be extended to include:
 
-Lifetime management
+Lifetime and automatic update handling
 
-Automatic update registration
-
-A builder pattern for chaining animations
+A builder pattern for chaining animations together
 
 Purpose:
-Provides smooth transitions or simple time-based effects without depending on third-party tweening libraries.
+Provides lightweight transitions or animations without relying on third-party libraries.
 
 7. Pooling System
 
-A simple generic object pooling implementation.
+A simple generic object pooling solution.
 
 Accepts a creation function and an initial pool size.
 
-Helps reduce runtime allocations and improve performance in frequently instantiated objects like cards or particles.
+Helps reduce runtime allocations and improve performance for frequently instantiated objects.
 
 Benefit:
-Reduces garbage collection overhead and provides predictable runtime behavior during gameplay.
+Improves memory efficiency and reduces garbage collection spikes during gameplay.
+
+8. Optimizations
+
+Several small optimizations were implemented to keep the game lightweight and performant:
+
+Card_MaterialCreator:
+Used to cache materials that have already been created. Since each material can appear twice, this prevents unnecessary instantiation and keeps memory usage low.
+
+Cached Transforms:
+Card_View accesses its transform during movement updates, so the transform reference is cached to avoid repeated GetComponent calls each frame.
+
+Performance Results:
+
+Average frame time: ~3 ms total
+
+2 ms for rendering
+
+0.3 ms for player update
+
+Achieved 200 FPS in testing with no noticeable performance issues.
+
+Typical Optimization Approach:
+In larger projects, optimization steps would include:
+
+More aggressive caching
+
+Reducing string manipulations
+
+Using NativeArray and Span for array operations in performance-critical update loops
+
+Overall, the project currently performs well within the desired frame budget.
 
 🧠 Design Philosophy
 
 This project emphasizes modularity, maintainability, and clarity.
 Each system serves a distinct purpose and communicates through well-defined interfaces or messages.
-The goal was to create a clean architectural foundation that can be easily expanded for future gameplay or production use.
+The goal was to establish a clean and flexible architectural foundation that can easily scale with new gameplay features or platform requirements.
