@@ -16,6 +16,12 @@ public class Card_View : MonoBehaviour
     
     private Card _card;
     private Vector3 _targetRotation;
+    private Transform _cachedTransform;
+
+    void Start()
+    {
+        _cachedTransform = transform;
+    }
     void OnEnable()
     {
         _materialCreator = DI.Get<ICard_MaterialCreator>();
@@ -30,8 +36,8 @@ public class Card_View : MonoBehaviour
 
     void Update()
     {
-        transform.localPosition = Vector3.Lerp(transform.localPosition, Vector3.zero, Time.deltaTime * transitionSpeed);
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(Vector3.zero), Time.deltaTime * transitionSpeed);
+        _cachedTransform.localPosition = Vector3.Lerp(_cachedTransform.localPosition, Vector3.zero, Time.deltaTime * transitionSpeed);
+        _cachedTransform.localRotation = Quaternion.Slerp(_cachedTransform.localRotation, Quaternion.Euler(Vector3.zero), Time.deltaTime * transitionSpeed);
         
         viewTransform.localRotation = Quaternion.Slerp(viewTransform.localRotation, Quaternion.Euler(_targetRotation), Time.deltaTime * transitionSpeed);
     }
