@@ -38,6 +38,7 @@ public class Card_View : MonoBehaviour
     {
         _cachedTransform.localPosition = Vector3.Lerp(_cachedTransform.localPosition, Vector3.zero, Time.deltaTime * transitionSpeed);
         _cachedTransform.localRotation = Quaternion.Slerp(_cachedTransform.localRotation, Quaternion.Euler(Vector3.zero), Time.deltaTime * transitionSpeed);
+        _cachedTransform.localScale = Vector3.Lerp(_cachedTransform.localScale, Vector3.one, Time.deltaTime * transitionSpeed);
         
         viewTransform.localRotation = Quaternion.Slerp(viewTransform.localRotation, Quaternion.Euler(_targetRotation), Time.deltaTime * transitionSpeed);
     }

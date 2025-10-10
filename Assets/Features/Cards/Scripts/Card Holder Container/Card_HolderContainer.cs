@@ -7,8 +7,14 @@ public abstract class Card_HolderContainer : MonoBehaviour
 {
     [SerializeField] private GameObject cardHolderPrefab;
     protected List<Card_Holder> cardHolders = new List<Card_Holder>();
+    protected float CardScaleFactor = 1;
+    public void InitializeCardHolders(int numberOfHolders, float scaleFactor = 1f)
+    {
+        CardScaleFactor = scaleFactor;
+        OnInitializeCardHolders(numberOfHolders);
+    }
     
-    public abstract void InitializeCardHolders(int numberOfHolders);
+    protected abstract void OnInitializeCardHolders(int numberOfHolders);
     public void SetCards(List<Card> cards)
     {
         for (int i = 0; i < cardHolders.Count; i++)

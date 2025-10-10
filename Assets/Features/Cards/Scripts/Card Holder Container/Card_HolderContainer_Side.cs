@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Card_HolderContainer_Side : Card_HolderContainer
 {
-    public override void InitializeCardHolders(int numberOfHolders)
+    protected override void OnInitializeCardHolders(int numberOfHolders)
     {
         var minimumPoint = DI.Get<IGrid>().GetMinimumPoint();
         transform.position = new Vector3(Mathf.Min(minimumPoint.x * 2, -5f), 0, 0);

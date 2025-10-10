@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Card_HolderContainer_Top : Card_HolderContainer
 {
-    public override void InitializeCardHolders(int numberOfHolders)
+    protected override void OnInitializeCardHolders(int numberOfHolders)
     {
         var maximum = DI.Get<IGrid>().GetMaximumPoint();
-        transform.position = new Vector3(-maximum.x, 0, maximum.z + 2);
+        transform.position = new Vector3(-maximum.x, 0, maximum.z + 1.5f);
         var total = Vector3.Distance(transform.position, maximum);
         var segment = total / (numberOfHolders / 2);
         for (int i = 0; i < numberOfHolders/2; i++)
@@ -17,6 +17,7 @@ public class Card_HolderContainer_Top : Card_HolderContainer
                 var holder = CreateHolder(transform);
                 holder.transform.localPosition = new Vector3(i * segment, 0, 0);
                 holder.transform.localRotation = Quaternion.Euler(0, 0, -30);
+                holder.transform.localScale = Vector3.one * CardScaleFactor;
                 cardHolders.Add(holder);
             }
         }        

@@ -15,6 +15,9 @@ public class Card_Manager : MonoBehaviour, ICardManager
 
     private Card_Supplier _cardSupplier;
     private IAudioManager _audioManager;
+
+    public float CardScale { get; set; } = 1;
+
     void Start()
     {
         _audioManager = DI.Get<IAudioManager>();
@@ -28,9 +31,9 @@ public class Card_Manager : MonoBehaviour, ICardManager
 
     public IEnumerator SetUpCards(int count)
     {
-        _sideContainer.InitializeCardHolders(count);
-        _gridContainer.InitializeCardHolders(count);
-        _topContainer.InitializeCardHolders(count);
+        _sideContainer.InitializeCardHolders(count, CardScale);
+        _gridContainer.InitializeCardHolders(count, CardScale);
+        _topContainer.InitializeCardHolders(count, CardScale);
         
         List<Card> cards = GetCards(count / 2).DuplicateContent();
         _sideContainer.SetCards(cards);
@@ -71,7 +74,8 @@ public class Card_Manager : MonoBehaviour, ICardManager
     {
         StartCoroutine(nameof(AnimateAllMatchedCardsCo));
     }
-    
+
+
     private IEnumerator AnimateAllMatchedCardsCo()
     {
         yield return _topContainer.TransitionCards(_gridContainer);
@@ -115,4 +119,5 @@ public interface ICardManager
     void MatchHappened(List<Card_Holder> holders);
     void MatchMissed(List<Card_Holder> holders);
     void AnimateAllMatchedCards();
+    float CardScale { get; set; }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Card_Holder : MonoBehaviour
 {
-    [SerializeField] private Card_View cardViewPrefab;
+    [SerializeField] private GameObject cardViewPrefab;
 
     private IAudioManager _audioManager;
     private ICardMatcher _cardMatcher;
@@ -32,7 +32,10 @@ public class Card_Holder : MonoBehaviour
     {
         if (_cardView == null)
         {
-            _cardView = Instantiate(cardViewPrefab, transform);
+            _cardView = Instantiate(cardViewPrefab).GetComponent<Card_View>();
+            _cardView.transform.SetParent(transform);
+            _cardView.transform.localPosition = Vector3.zero;
+            _cardView.transform.localScale = Vector3.one;
         }
         
         _cardView.SetCard(card);

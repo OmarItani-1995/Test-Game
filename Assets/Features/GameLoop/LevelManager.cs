@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator InitializeLevel()
     {
         _grid.GenerateGrid(Rows, Columns);
-        _camera.MoveToView(Rows, Columns);        
+        if (_camera.Mode == Camera_Mode.Movable) _camera.MoveToView(Rows, Columns);        
         yield return new WaitForSeconds(1f);
         yield return _cardManager.SetUpCards(Rows * Columns);
         yield return new WaitForSeconds(_delayBeforeHidingCards);

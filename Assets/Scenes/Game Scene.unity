@@ -687,7 +687,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.76999235, z: -1.1199981}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1532,7 +1532,11 @@ MonoBehaviour:
   prefab: {fileID: 1013954441844081151, guid: 650352d396f65a7498a19b159a99a9ec, type: 3}
   Rows: 2
   Columns: 2
-  spacing: 1.5
+  spacing: 0.5
+  minCardScale: 0.1
+  maxCardScale: 1
+  minSpacing: 0.15
+  maxSpacing: 1.25
 --- !u!4 &1042690481
 Transform:
   m_ObjectHideFlags: 0
@@ -2739,6 +2743,8 @@ MonoBehaviour:
   CameraTransform: {fileID: 330585546}
   StartingPoint: {fileID: 1928699248}
   EndingPoint: {fileID: 2090725349}
+  camera: {fileID: 330585545}
+  mode: 1
 --- !u!4 &1896546028
 Transform:
   m_ObjectHideFlags: 0

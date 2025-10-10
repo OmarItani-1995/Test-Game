@@ -11,7 +11,7 @@ public class Card_HolderContainer_Grid : Card_HolderContainer
         _grid = DI.Get<IGrid>();
     }
     
-    public override void InitializeCardHolders(int numberOfHolders)
+    protected override void OnInitializeCardHolders(int numberOfHolders)
     {
         var points = _grid.GetPoints();
         foreach (var point in points)
